@@ -1,7 +1,7 @@
 function Node() {
   let data;
-  let left;
-  let right;
+  let left = null;
+  let right = null;
 
   return {
     data,
@@ -62,14 +62,39 @@ function BSTtree(arr) {
       prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   };
+
+  const insert = (value) => {
+    let currentNode = root;
+    let node = Node();
+    node.data = value;
+    while (currentNode) {
+      if (currentNode.data === value) {
+        break;
+      }
+      if (currentNode.data > value && currentNode.left) {
+        currentNode = currentNode.left;
+      } else if (currentNode.data < value && currentNode.right) {
+        currentNode = currentNode.right;
+      } else if (currentNode.data < value) {
+        currentNode.right = node;
+        break;
+      } else if (currentNode.data > value) {
+        currentNode.left = node;
+        break;
+      }
+    }
+  };
+
   cleanArray = cleanUpArray(arr);
   root = buildTree(cleanArray, 0, cleanArray.length - 1);
   return {
     root,
     prettyPrint,
+    insert,
   };
 }
 
 let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let tree = BSTtree(arr);
+tree.insert(2);
 tree.prettyPrint(tree.root);
