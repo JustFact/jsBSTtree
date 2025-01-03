@@ -164,6 +164,21 @@ function BSTtree(arr) {
     //if no value is found then the function simply ends
   };
 
+  const find = (value) => {
+    let currentNode = root.node;
+    while (currentNode) {
+      if (currentNode.data === value) {
+        return currentNode;
+      } else if (currentNode.data > value) {
+        currentNode = currentNode.left;
+      } else if (currentNode.data < value) {
+        currentNode = currentNode.right;
+      } else {
+        return null;
+      }
+    }
+  };
+
   cleanArray = cleanUpArray(arr);
   root.node = buildTree(cleanArray, 0, cleanArray.length - 1);
   return {
@@ -171,6 +186,7 @@ function BSTtree(arr) {
     prettyPrint,
     insert,
     deleteItem,
+    find,
   };
 }
 
@@ -181,9 +197,4 @@ tree.insert(16);
 tree.insert(14);
 tree.insert(18);
 tree.insert(15);
-tree.prettyPrint(tree.root.node);
-tree.deleteItem(11);
-tree.deleteItem(13);
-tree.prettyPrint(tree.root.node);
-tree.deleteItem(9);
 tree.prettyPrint(tree.root.node);
