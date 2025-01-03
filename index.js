@@ -293,6 +293,12 @@ function BSTtree(arr) {
     return isBalanced(node.left) && isBalanced(node.right);
   };
 
+  const rebalance = () => {
+    let arr = [];
+    inOrder((node) => arr.push(node.data));
+    root.node = buildTree(arr, 0, arr.length - 1);
+  };
+
   cleanArray = cleanUpArray(arr);
   root.node = buildTree(cleanArray, 0, cleanArray.length - 1);
   return {
@@ -309,6 +315,7 @@ function BSTtree(arr) {
     height,
     depth,
     isBalanced,
+    rebalance,
   };
 }
 
@@ -319,11 +326,11 @@ tree.insert(16);
 tree.insert(14);
 tree.insert(18);
 tree.insert(15);
-tree.prettyPrint(tree.root.node);
+// tree.prettyPrint(tree.root.node);
 // tree.levelOrder_recursion((node) => console.log(node.data));
 // tree.postOrder((node) => console.log(node.data));
 // tree.deleteItem(15);
 tree.prettyPrint(tree.root.node);
-let testNode = tree.root.node.right;
-console.log(tree.height(testNode));
-console.log(tree.isBalanced(testNode));
+let testNode = tree.root.node;
+tree.rebalance(testNode);
+tree.prettyPrint(tree.root.node);
