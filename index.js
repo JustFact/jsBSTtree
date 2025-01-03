@@ -281,6 +281,18 @@ function BSTtree(arr) {
     return null;
   };
 
+  const isBalanced = (node = root.node) => {
+    if (!node) {
+      return true;
+    }
+
+    if (Math.abs(height(node.left) - height(node.right)) > 1) {
+      return false;
+    }
+
+    return isBalanced(node.left) && isBalanced(node.right);
+  };
+
   cleanArray = cleanUpArray(arr);
   root.node = buildTree(cleanArray, 0, cleanArray.length - 1);
   return {
@@ -296,6 +308,7 @@ function BSTtree(arr) {
     postOrder,
     height,
     depth,
+    isBalanced,
   };
 }
 
@@ -311,4 +324,6 @@ tree.prettyPrint(tree.root.node);
 // tree.postOrder((node) => console.log(node.data));
 // tree.deleteItem(15);
 tree.prettyPrint(tree.root.node);
-console.log(tree.depth(tree.root.node.right.right.left.left.right));
+let testNode = tree.root.node.right;
+console.log(tree.height(testNode));
+console.log(tree.isBalanced(testNode));
