@@ -216,6 +216,9 @@ function BSTtree(arr) {
   };
 
   const inOrder = (callback, node = root.node) => {
+    if (!callback) {
+      throw new Error("A callback is required");
+    }
     if (!node) {
       return;
     }
@@ -225,6 +228,9 @@ function BSTtree(arr) {
   };
 
   const preOrder = (callback, node = root.node) => {
+    if (!callback) {
+      throw new Error("A callback is required");
+    }
     if (!node) {
       return;
     }
@@ -234,6 +240,9 @@ function BSTtree(arr) {
   };
 
   const postOrder = (callback, node = root.node) => {
+    if (!callback) {
+      throw new Error("A callback is required");
+    }
     if (!node) {
       return;
     }
