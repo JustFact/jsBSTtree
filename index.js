@@ -215,6 +215,33 @@ function BSTtree(arr) {
     levelOrder_recursion(callback, queue);
   };
 
+  const inOrder = (callback, node = root.node) => {
+    if (!node) {
+      return;
+    }
+    inOrder(callback, node.left);
+    callback(node);
+    inOrder(callback, node.right);
+  };
+
+  const preOrder = (callback, node = root.node) => {
+    if (!node) {
+      return;
+    }
+    callback(node);
+    preOrder(callback, node.left);
+    preOrder(callback, node.right);
+  };
+
+  const postOrder = (callback, node = root.node) => {
+    if (!node) {
+      return;
+    }
+    postOrder(callback, node.left);
+    postOrder(callback, node.right);
+    callback(node);
+  };
+
   cleanArray = cleanUpArray(arr);
   root.node = buildTree(cleanArray, 0, cleanArray.length - 1);
   return {
@@ -225,6 +252,9 @@ function BSTtree(arr) {
     find,
     levelOrder_iteration,
     levelOrder_recursion,
+    inOrder,
+    preOrder,
+    postOrder,
   };
 }
 
@@ -236,4 +266,5 @@ tree.insert(14);
 tree.insert(18);
 tree.insert(15);
 tree.prettyPrint(tree.root.node);
-tree.levelOrder_recursion((node) => console.log(node.data));
+// tree.levelOrder_recursion((node) => console.log(node.data));
+tree.postOrder((node) => console.log(node.data));
