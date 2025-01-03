@@ -11,7 +11,7 @@ function Node() {
 }
 
 function BSTtree(arr) {
-  let root;
+  let root = { node: null };
   let cleanArray;
 
   const cleanUpArray = (arr) => {
@@ -64,7 +64,7 @@ function BSTtree(arr) {
   };
 
   const insert = (value) => {
-    let currentNode = root;
+    let currentNode = root.node;
     let node = Node();
     node.data = value;
     while (currentNode) {
@@ -85,16 +85,105 @@ function BSTtree(arr) {
     }
   };
 
+  const deleteItem = (value) => {
+    let currentNode = root.node;
+    let lastNode;
+    while (currentNode) {
+      if (currentNode.data === value) {
+        //If the value exists then the following code will run
+        if (currentNode.left === null && currentNode.right === null) {
+          //if found value is a leaf node
+          if (lastNode.pos === "l") {
+            lastNode.node.left = null;
+          } else if (lastNode.pos === "r") {
+            lastNode.node.right = null;
+          }
+        } else if (
+          (currentNode.left !== null && currentNode.right === null) ||
+          (currentNode.left === null && currentNode.right !== null)
+        ) {
+          //if found value has a single child
+          if (lastNode.pos === "l") {
+            if (currentNode.left) {
+              lastNode.node.left = currentNode.left;
+            } else if (currentNode.right) {
+              lastNode.node.left = currentNode.right;
+            }
+          } else if (lastNode.pos === "r") {
+            if (currentNode.left) {
+              lastNode.node.right = currentNode.left;
+            } else if (currentNode.right) {
+              lastNode.node.right = currentNode.right;
+            }
+          }
+        } else if (currentNode.left !== null && currentNode.right !== null) {
+          //if found value has both child
+
+          let successorNode = currentNode.right;
+          let successorParent = currentNode;
+          while (successorNode.left) {
+            successorParent = successorNode;
+            successorNode = successorNode.left;
+          }
+
+          if (currentNode === root.node) {
+            successorParent.left = successorNode.right;
+            successorNode.left = root.node.left;
+            successorNode.right = root.node.right;
+            root.node = successorNode;
+          } else {
+            if (successorParent !== currentNode) {
+              successorParent.left = successorNode.right;
+            } else {
+              successorParent.right = successorNode.right;
+            }
+            successorNode.left = currentNode.left;
+            successorNode.right = currentNode.right;
+
+            if (!lastNode) {
+              root.node = successorNode;
+            } else if (lastNode.pos === "l") {
+              lastNode.node.left = successorNode;
+            } else if (lastNode.pos === "r") {
+              lastNode.node.right = successorNode;
+            }
+          }
+        }
+        // exiting function after deleting the node
+        return;
+      } else if (currentNode.data > value) {
+        //traversing left subtree while caching last node
+        lastNode = { node: currentNode, pos: "l" };
+        currentNode = currentNode.left;
+      } else if (currentNode.data < value) {
+        //traversing right subtree while caching last node
+        lastNode = { node: currentNode, pos: "r" };
+        currentNode = currentNode.right;
+      }
+    }
+    //if no value is found then the function simply ends
+  };
+
   cleanArray = cleanUpArray(arr);
-  root = buildTree(cleanArray, 0, cleanArray.length - 1);
+  root.node = buildTree(cleanArray, 0, cleanArray.length - 1);
   return {
     root,
     prettyPrint,
     insert,
+    deleteItem,
   };
 }
 
-let arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+let arr = [1, 5, 7, 9, 11, 13, 19, 23]; //[1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let tree = BSTtree(arr);
 tree.insert(2);
-tree.prettyPrint(tree.root);
+tree.insert(16);
+tree.insert(14);
+tree.insert(18);
+tree.insert(15);
+tree.prettyPrint(tree.root.node);
+tree.deleteItem(11);
+tree.deleteItem(13);
+tree.prettyPrint(tree.root.node);
+tree.deleteItem(9);
+tree.prettyPrint(tree.root.node);
