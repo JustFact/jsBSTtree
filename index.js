@@ -251,6 +251,15 @@ function BSTtree(arr) {
     callback(node);
   };
 
+  const height = (node = root.node) => {
+    if (!node) {
+      return -1;
+    }
+    let left = 1 + height(node.left);
+    let right = 1 + height(node.right);
+    return left > right ? left : right;
+  };
+
   cleanArray = cleanUpArray(arr);
   root.node = buildTree(cleanArray, 0, cleanArray.length - 1);
   return {
@@ -264,6 +273,7 @@ function BSTtree(arr) {
     inOrder,
     preOrder,
     postOrder,
+    height,
   };
 }
 
@@ -276,4 +286,7 @@ tree.insert(18);
 tree.insert(15);
 tree.prettyPrint(tree.root.node);
 // tree.levelOrder_recursion((node) => console.log(node.data));
-tree.postOrder((node) => console.log(node.data));
+// tree.postOrder((node) => console.log(node.data));
+// tree.deleteItem(15);
+tree.prettyPrint(tree.root.node);
+console.log(tree.height());
