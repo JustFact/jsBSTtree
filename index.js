@@ -260,6 +260,27 @@ function BSTtree(arr) {
     return left > right ? left : right;
   };
 
+  const depth = (node) => {
+    if (!node) {
+      return 0;
+    }
+
+    let currentNode = root.node;
+    let result = 0;
+    while (currentNode) {
+      if (currentNode.data > node.data) {
+        result = result + 1;
+        currentNode = currentNode.left;
+      } else if (currentNode.data < node.data) {
+        result = result + 1;
+        currentNode = currentNode.right;
+      } else if (currentNode.data === node.data) {
+        return result;
+      }
+    }
+    return null;
+  };
+
   cleanArray = cleanUpArray(arr);
   root.node = buildTree(cleanArray, 0, cleanArray.length - 1);
   return {
@@ -274,6 +295,7 @@ function BSTtree(arr) {
     preOrder,
     postOrder,
     height,
+    depth,
   };
 }
 
@@ -289,4 +311,4 @@ tree.prettyPrint(tree.root.node);
 // tree.postOrder((node) => console.log(node.data));
 // tree.deleteItem(15);
 tree.prettyPrint(tree.root.node);
-console.log(tree.height());
+console.log(tree.depth(tree.root.node.right.right.left.left.right));
