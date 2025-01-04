@@ -319,18 +319,37 @@ function BSTtree(arr) {
   };
 }
 
-let arr = [1, 5, 7, 9, 11, 13, 19, 23]; //[1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-let tree = BSTtree(arr);
-tree.insert(2);
-tree.insert(16);
-tree.insert(14);
-tree.insert(18);
-tree.insert(15);
-// tree.prettyPrint(tree.root.node);
-// tree.levelOrder_recursion((node) => console.log(node.data));
-// tree.postOrder((node) => console.log(node.data));
-// tree.deleteItem(15);
+function randomArray(max) {
+  let arr = [];
+  while (arr.length < max) {
+    arr.push(Math.floor(Math.random() * max));
+  }
+  return arr;
+}
+let tree = BSTtree(randomArray(100));
+console.log(tree.isBalanced());
 tree.prettyPrint(tree.root.node);
-let testNode = tree.root.node;
-tree.rebalance(testNode);
+console.log("Level Order:");
+tree.levelOrder_iteration((node) => console.log(node.data));
+console.log("In Order:");
+tree.inOrder((node) => console.log(node.data));
+console.log("Pre Order:");
+tree.preOrder((node) => console.log(node.data));
+console.log("Post Order:");
+tree.postOrder((node) => console.log(node.data));
+
+let newArr = randomArray(200);
+newArr.forEach((e) => tree.insert(e));
+console.log(tree.isBalanced());
 tree.prettyPrint(tree.root.node);
+tree.rebalance();
+console.log(tree.isBalanced());
+tree.prettyPrint(tree.root.node);
+console.log("Level Order:");
+tree.levelOrder_recursion((node) => console.log(node.data));
+console.log("In Order:");
+tree.inOrder((node) => console.log(node.data));
+console.log("Pre Order:");
+tree.preOrder((node) => console.log(node.data));
+console.log("Post Order:");
+tree.postOrder((node) => console.log(node.data));
